@@ -18,3 +18,5 @@ Returns a gif-file according to the rate of given currency to USD related to yes
 
 `Get /gif/{cur}`
 
+## Example of program view:
+![Example](example.png)
