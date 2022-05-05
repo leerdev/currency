@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Currency Gif</title>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+</head>
+
+<body>
+  <div style="text-align: center;">
+    <button id="btn1" onclick='load_symbols()'>Load Currencies</button>
+    <p>Select currency: </p>
+    <select id="symbols"></select>
+    <br><br>
+    <button id="btn2" onclick='get_gif()'>Get GIF</button>
+    <br><br>
+    <p>Message: <label id="lab1">Message</label></p>
+    <p>Latest price: <label id="lab2">0</label></p>
+    <p>Historical price: <label id="lab3">0</label></p>
+    <img id="gifimg" src="" width="500" height="500">
+  </div>
+</body>
+
+<script>
+  function load_symbols() {
+    $.ajax({
+      url: 'http://localhost:8080/currency/get_symbols',
+      method: 'GET',
+      complete: function (data) {
+        let symbols = JSON.parse(data.responseText)
+        let select = document.querySelector("#symbols");
+        select.innerHTML = '';
+        symbols.forEach(symbol => {
+          let o = document.createElement("option");
+          o.value = symbol;
+          o.text = symbol;
+          select.insertAdjacentElement("beforeend", o);
+        })
+      }
+    });
+  }
+
+  function get_gif() {
+    let symbol = $("#symbols").val();
+    $.ajax({
+      url: 'http://localhost:8080/currency/gif/'+symbol,
+      method: 'GET',
+      dataType: "json",
+      complete: function (data) {
+        resp = JSON.parse(data.responseText);
+        let img = document.querySelector("#gifimg");
+        img.src = resp.data.images.original.url;
+        document.getElementById("lab1").innerHTML = resp.my_app_message;
+        document.getElementById("lab2").innerHTML = resp.latest_price;
+        document.getElementById("lab3").innerHTML = resp.historical_price;
+      }
+    })
+  }
+</script>
+
+</html>
