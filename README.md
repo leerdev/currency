@@ -20,3 +20,10 @@ Returns a gif-file according to the rate of given currency to USD related to yes
 
 ## Example of program view:
 ![Example](example.png)
+
+
+## Important note:
+I could not yet be able to solve the CORS 'Access-Control-Allow-Origin' issue, thus the web-client must work in disabled security mode.
+For example, Chrome run command arguments:  
+
+'chrome.ext –-allow-file-access-from-files --disable-web-security --user-data-dir --disable-features=CrossSiteDocumentBlockingIfIsolating'
